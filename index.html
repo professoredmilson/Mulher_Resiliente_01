@@ -17,7 +17,7 @@
             top: 15px;
             right: 20px;
             z-index: 1000;
-            opacity: 0.7;
+            opacity: 0.75;
         }
         .audio-btn:hover {
             opacity: 1;
@@ -29,19 +29,14 @@
 </head>
 <body>
 
-<!-- Botão de áudio -->
-<button id="audioToggle" class="btn btn-outline-secondary btn-sm audio-btn">
-    🔊 Áudio
+<!-- Botão de leitura -->
+<button id="speechToggle" class="btn btn-outline-secondary btn-sm audio-btn">
+    🔊 Ouvir
 </button>
-
-<!-- Áudio de fundo -->
-<audio id="bgAudio" loop>
-    <source src="x.mp3" type="audio/mpeg">
-</audio>
 
 <div class="container content">
     <div class="card shadow-sm">
-        <div class="card-body p-4">
+        <div class="card-body p-4" id="texto">
 
             <h2 class="text-center mb-4">🌷 Mulher Resiliente</h2>
             <h5 class="text-center text-muted mb-4">
@@ -55,8 +50,8 @@
             </p>
 
             <p>
-                Minha infância foi simples e marcada por dificuldades. Desde cedo entendi que
-                a vida não seria fácil para uma mulher negra e pobre no Brasil.
+                Minha infância foi simples e marcada por dificuldades.
+                Desde cedo entendi que a vida não seria fácil para uma mulher negra e pobre no Brasil.
                 Mesmo com pouco estudo, sempre gostei de ler tudo o que encontrava.
                 Guardava cadernos e papéis porque escrever era minha forma de existir no mundo.
             </p>
@@ -68,7 +63,7 @@
             </p>
 
             <p>
-                Em 1960, meu diário foi publicado com o título <strong>Quarto de Despejo</strong>.
+                Em 1960, meu diário foi publicado com o título Quarto de Despejo.
                 O livro revelou ao Brasil a realidade da favela.
                 Minha voz passou a ser ouvida dentro e fora do país.
             </p>
@@ -84,20 +79,35 @@
 </div>
 
 <script>
-    const audio = document.getElementById("bgAudio");
-    const button = document.getElementById("audioToggle");
-
-    let isPlaying = false;
+    const button = document.getElementById("speechToggle");
+    const texto = document.getElementById("texto").innerText;
+    let speaking = false;
+    let utterance;
 
     button.addEventListener("click", function () {
-        if (isPlaying) {
-            audio.pause();
-            button.innerHTML = "🔊 Áudio";
-        } else {
-            audio.play();
+
+        if (!speaking) {
+
+            utterance = new SpeechSynthesisUtterance(texto);
+            utterance.lang = "pt-BR";
+            utterance.rate = 1;      // velocidade
+            utterance.pitch = 1;     // tom
+
+            speechSynthesis.speak(utterance);
             button.innerHTML = "🔇 Parar";
+
+            speaking = true;
+
+            utterance.onend = function () {
+                speaking = false;
+                button.innerHTML = "🔊 Ouvir";
+            };
+
+        } else {
+            speechSynthesis.cancel();
+            speaking = false;
+            button.innerHTML = "🔊 Ouvir";
         }
-        isPlaying = !isPlaying;
     });
 </script>
 
