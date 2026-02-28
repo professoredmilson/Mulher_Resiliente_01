@@ -1,33 +1,105 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Player de Áudio</title>
-  
-  <!-- Bootstrap 5 CDN -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mulher Resiliente - Carolina Maria de Jesus</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .audio-btn {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            z-index: 1000;
+            opacity: 0.7;
+        }
+        .audio-btn:hover {
+            opacity: 1;
+        }
+        .content {
+            margin-top: 80px;
+        }
+    </style>
 </head>
+<body>
 
-<body class="bg-light">
+<!-- Botão de áudio -->
+<button id="audioToggle" class="btn btn-outline-secondary btn-sm audio-btn">
+    🔊 Áudio
+</button>
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
-  <div class="card shadow p-4 text-center" style="max-width: 400px;">
-    
-    <h4 class="mb-3">Reproduzir Áudio</h4>
+<!-- Áudio de fundo -->
+<audio id="bgAudio" loop>
+    <source src="x.mp3" type="audio/mpeg">
+</audio>
 
-    <audio controls class="w-100">
-      <source src="x.mp3" type="audio/mpeg">
-      Seu navegador não suporta áudio HTML5.
-    </audio>
+<div class="container content">
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
 
-    <button class="btn btn-primary mt-3" onclick="document.querySelector('audio').play()">
-      ▶ Tocar
-    </button>
+            <h2 class="text-center mb-4">🌷 Mulher Resiliente</h2>
+            <h5 class="text-center text-muted mb-4">
+                Carolina Maria de Jesus
+            </h5>
 
-  </div>
+            <p>
+                Meu nome é Carolina Maria de Jesus. Nasci em 1914, na cidade de Sacramento, Minas Gerais.
+                Venho de uma família pobre e estudei apenas os primeiros anos da escola,
+                mas aprendi algo que mudaria minha vida: o amor pelas palavras.
+            </p>
+
+            <p>
+                Minha infância foi simples e marcada por dificuldades. Desde cedo entendi que
+                a vida não seria fácil para uma mulher negra e pobre no Brasil.
+                Mesmo com pouco estudo, sempre gostei de ler tudo o que encontrava.
+                Guardava cadernos e papéis porque escrever era minha forma de existir no mundo.
+            </p>
+
+            <p>
+                Mudei-me para São Paulo e fui morar na favela do Canindé.
+                Trabalhei como catadora de papel para sustentar meus filhos.
+                Muitas vezes passamos fome, mas nunca deixei de escrever.
+            </p>
+
+            <p>
+                Em 1960, meu diário foi publicado com o título <strong>Quarto de Despejo</strong>.
+                O livro revelou ao Brasil a realidade da favela.
+                Minha voz passou a ser ouvida dentro e fora do país.
+            </p>
+
+            <p>
+                Eu me considero uma mulher resiliente porque transformei dor em palavra,
+                exclusão em literatura e dificuldade em coragem.
+                Minha história mostra que a educação e a escrita têm força.
+            </p>
+
+        </div>
+    </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const audio = document.getElementById("bgAudio");
+    const button = document.getElementById("audioToggle");
+
+    let isPlaying = false;
+
+    button.addEventListener("click", function () {
+        if (isPlaying) {
+            audio.pause();
+            button.innerHTML = "🔊 Áudio";
+        } else {
+            audio.play();
+            button.innerHTML = "🔇 Parar";
+        }
+        isPlaying = !isPlaying;
+    });
+</script>
+
 </body>
 </html>
