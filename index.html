@@ -1,114 +1,160 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mulher Resiliente - Carolina Maria de Jesus</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mulher Resiliente - Carolina Maria de Jesus</title>
 
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .audio-btn {
-            position: fixed;
-            top: 15px;
-            right: 20px;
-            z-index: 1000;
-            opacity: 0.75;
-        }
-        .audio-btn:hover {
-            opacity: 1;
-        }
-        .content {
-            margin-top: 80px;
-        }
-    </style>
+<style>
+    body { background-color: #f8f9fa; }
+
+    .control-panel {
+        position: fixed;
+        top: 15px;
+        right: 20px;
+        z-index: 1000;
+        display: flex;
+        gap: 5px;
+    }
+
+    .highlight {
+        background-color: #fff3cd;
+        transition: background-color 0.3s ease;
+    }
+
+    .content { margin-top: 90px; }
+
+    .leitura {
+        font-size: 1.2rem;
+        line-height: 1.6;
+    }
+
+    h2 { font-size: 2rem; }
+    h5 { font-size: 1.25rem; }
+</style>
 </head>
 <body>
 
-<!-- Botão de leitura -->
-<button id="speechToggle" class="btn btn-outline-secondary btn-sm audio-btn">
-    🔊 Ouvir
-</button>
+<div class="control-panel">
+    <button id="speechToggle" class="btn btn-outline-secondary btn-sm">🔊</button>
+    <button id="increaseFont" class="btn btn-outline-secondary btn-sm">A+</button>
+    <button id="decreaseFont" class="btn btn-outline-secondary btn-sm">A−</button>
+</div>
 
 <div class="container content">
-    <div class="card shadow-sm">
-        <div class="card-body p-4" id="texto">
+<div class="card shadow-sm">
+<div class="card-body p-4">
 
-            <h2 class="text-center mb-4">🌷 Mulher Resiliente</h2>
-            <h5 class="text-center text-muted mb-4">
-                Carolina Maria de Jesus
-            </h5>
+<h2 class="text-center mb-4">🌷 Mulher Resiliente</h2>
+<h5 class="text-center text-muted mb-4">Carolina Maria de Jesus</h5>
 
-            <p>
-                Meu nome é Carolina Maria de Jesus. Nasci em 1914, na cidade de Sacramento, Minas Gerais.
-                Venho de uma família pobre e estudei apenas os primeiros anos da escola,
-                mas aprendi algo que mudaria minha vida: o amor pelas palavras.
-            </p>
+<p class="leitura">
+Meu nome é Carolina Maria de Jesus. Nasci em 1914, na cidade de Sacramento, Minas Gerais.
+Venho de uma família pobre e estudei apenas os primeiros anos da escola,
+mas aprendi algo que mudaria minha vida: o amor pelas palavras.
+</p>
 
-            <p>
-                Minha infância foi simples e marcada por dificuldades.
-                Desde cedo entendi que a vida não seria fácil para uma mulher negra e pobre no Brasil.
-                Mesmo com pouco estudo, sempre gostei de ler tudo o que encontrava.
-                Guardava cadernos e papéis porque escrever era minha forma de existir no mundo.
-            </p>
+<p class="leitura">
+Minha infância foi simples e marcada por dificuldades.
+Desde cedo entendi que a vida não seria fácil para uma mulher negra e pobre no Brasil.
+Mesmo com pouco estudo, sempre gostei de ler tudo o que encontrava.
+Guardava cadernos e papéis porque escrever era minha forma de existir no mundo.
+</p>
 
-            <p>
-                Mudei-me para São Paulo e fui morar na favela do Canindé.
-                Trabalhei como catadora de papel para sustentar meus filhos.
-                Muitas vezes passamos fome, mas nunca deixei de escrever.
-            </p>
+<p class="leitura">
+Mudei-me para São Paulo e fui morar na favela do Canindé.
+Trabalhei como catadora de papel para sustentar meus filhos.
+Muitas vezes passamos fome, mas nunca deixei de escrever.
+</p>
 
-            <p>
-                Em 1960, meu diário foi publicado com o título Quarto de Despejo.
-                O livro revelou ao Brasil a realidade da favela.
-                Minha voz passou a ser ouvida dentro e fora do país.
-            </p>
+<p class="leitura">
+Em 1960, meu diário foi publicado com o título Quarto de Despejo.
+O livro revelou ao Brasil a realidade da favela.
+Minha voz passou a ser ouvida dentro e fora do país.
+</p>
 
-            <p>
-                Eu me considero uma mulher resiliente porque transformei dor em palavra,
-                exclusão em literatura e dificuldade em coragem.
-                Minha história mostra que a educação e a escrita têm força.
-            </p>
+<p class="leitura">
+Eu me considero uma mulher resiliente porque transformei dor em palavra,
+exclusão em literatura e dificuldade em coragem.
+Minha história mostra que a educação e a escrita têm força.
+</p>
 
-        </div>
-    </div>
+</div>
+</div>
 </div>
 
 <script>
-    const button = document.getElementById("speechToggle");
-    const texto = document.getElementById("texto").innerText;
-    let speaking = false;
-    let utterance;
+const button = document.getElementById("speechToggle");
+const paragrafos = document.querySelectorAll(".leitura");
+const increaseBtn = document.getElementById("increaseFont");
+const decreaseBtn = document.getElementById("decreaseFont");
 
-    button.addEventListener("click", function () {
+let speaking = false;
+let index = 0;
 
-        if (!speaking) {
+let fontSize = 1.2; // tamanho inicial (rem)
+const minFont = 1.0;
+const maxFont = 2.0;
 
-            utterance = new SpeechSynthesisUtterance(texto);
-            utterance.lang = "pt-BR";
-            utterance.rate = 1;      // velocidade
-            utterance.pitch = 1;     // tom
+function atualizarFonte() {
+    paragrafos.forEach(p => p.style.fontSize = fontSize + "rem");
+    document.querySelector("h2").style.fontSize = (fontSize * 1.6) + "rem";
+    document.querySelector("h5").style.fontSize = (fontSize * 1.1) + "rem";
+}
 
-            speechSynthesis.speak(utterance);
-            button.innerHTML = "🔇 Parar";
+increaseBtn.addEventListener("click", function(){
+    if(fontSize < maxFont){
+        fontSize += 0.1;
+        atualizarFonte();
+    }
+});
 
-            speaking = true;
+decreaseBtn.addEventListener("click", function(){
+    if(fontSize > minFont){
+        fontSize -= 0.1;
+        atualizarFonte();
+    }
+});
 
-            utterance.onend = function () {
-                speaking = false;
-                button.innerHTML = "🔊 Ouvir";
-            };
+function lerParagrafo(i) {
+    if (i >= paragrafos.length) {
+        speaking = false;
+        button.innerHTML = "🔊";
+        return;
+    }
 
-        } else {
-            speechSynthesis.cancel();
-            speaking = false;
-            button.innerHTML = "🔊 Ouvir";
-        }
-    });
+    paragrafos.forEach(p => p.classList.remove("highlight"));
+    paragrafos[i].classList.add("highlight");
+    paragrafos[i].scrollIntoView({ behavior: "smooth", block: "center" });
+
+    let utterance = new SpeechSynthesisUtterance(paragrafos[i].innerText);
+    utterance.lang = "pt-BR";
+    utterance.rate = 1.15;
+
+    utterance.onend = function () {
+        index++;
+        lerParagrafo(index);
+    };
+
+    speechSynthesis.speak(utterance);
+}
+
+button.addEventListener("click", function () {
+
+    if (!speaking) {
+        speaking = true;
+        index = 0;
+        button.innerHTML = "🔇";
+        lerParagrafo(index);
+    } else {
+        speechSynthesis.cancel();
+        paragrafos.forEach(p => p.classList.remove("highlight"));
+        speaking = false;
+        button.innerHTML = "🔊";
+    }
+});
 </script>
 
 </body>
